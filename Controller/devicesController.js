@@ -57,7 +57,7 @@ exports.getAllDevices = catchAsyncError(async (req, res, next) => {
 });
 // update   devices
 exports.updateDevices = catchAsyncError(async (req, res, next) => {
-  const { deviceId } = req.params;
+  const deviceId = req.params.id;
 
   const device = await DeviceModel.findById(deviceId);
   if (!device) {
@@ -78,17 +78,16 @@ exports.updateDevices = catchAsyncError(async (req, res, next) => {
 });
 // delete   devices
 exports.deleteDevices = catchAsyncError(async (req, res, next) => {
-  const { deviceId } = req.params;
+  const id = req.params.id;
 
-  const device = await DeviceModel.findById(deviceId);
+  const device = await DeviceModel.findById(id);
   if (!device) {
     return next(new ErrorHandler("this device not  axist!", 404));
   }
-  await cap.remove();
+  await device.remove();
 
   res.status(201).json({
     success: true,
-
     message: "Device Delete Successfully!!",
   });
 });

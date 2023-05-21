@@ -9,12 +9,20 @@ const roomSchema = new mongoose.Schema(
     },
     devices: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        diviceName: {
+          type: String,
+          require: true,
+        },
       },
     ],
-    renter: {
-      type: mongoose.Schema.Types.ObjectId,
+    // renter: {
+    //   type: mongoose.Schema.Types.ObjectId,
 
+    //   default: null,
+    // },
+    renter: {
+      type: String,
+      require: true,
       default: null,
     },
     isLocked: {
