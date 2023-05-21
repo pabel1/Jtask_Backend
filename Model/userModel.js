@@ -12,21 +12,7 @@ const userModel = mongoose.Schema(
       unique: true,
       validate: [validator.isEmail, "Invalid Email"],
     },
-    photo: {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
-    },
-    phone: {
-      type: String,
-      length: [11, "Phone number must be 11 digits"],
-      trim: true,
-    },
+
     password: {
       type: String,
       required: true,
@@ -34,9 +20,9 @@ const userModel = mongoose.Schema(
     role: {
       type: String,
       required: true,
-      enum: ["User", "Admin"],
+      default: "Admin",
+      enum: ["Admin", "renter"],
     },
-    __v: false,
   },
   { timestamps: true }
 );

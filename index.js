@@ -6,6 +6,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const socket = require("socket.io");
+const http = require("http");
 // internal import
 
 const errorMiddleware = require("./Middleware/errorMiddleware");
@@ -34,6 +35,26 @@ app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ extended: true, limit: "100mb" }));
 app.use(cors());
 
+let server = http.createServer(app);
+const io = socket(server);
+
+// Set up Socket.IO connection
+io.on("connection", (socket) => {
+  console.log("New client connected");
+
+  // Handle device control events
+  // socket.on('toggleDevice', deviceController.toggleDevice);
+  // socket.on('setFanRPM', deviceController.setFanRPM);
+  // socket.on('setTemperature', deviceController.setTemperature);
+
+  // Handle other socket events as needed
+
+  // Socket.IO client disconnection handling
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
+
 // Handeling Uncaught Exception
 process.on("uncaughtException", (err) => {
   console.log(`Error : ${err.message}`);
@@ -57,17 +78,8 @@ const errorHandler = (err, req, res, next) => {
 app.use(errorHandler);
 
 // listening port
-const server = app.listen(PORT, () => {
+server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-// Initialize Socket.IO
-const io = socket(server);
-
-// Set up Socket.IO connection and handle events
-io.on("connection", (socket) => {
-  console.log("New socket connection:", socket.id);
-  // Handle socket events here
 });
 
 // Unhandeled Promise rejection
@@ -75,7 +87,7 @@ process.on("unhandledRejection", (err) => {
   console.log(`Error : ${err.message}`);
   console.log("Sutting down the server due to Unhandled Promise Rejection");
 
-  server.close(() => {
-    process.exit(1);
-  });
+  // server.close(() => {
+  //   process.exit(1);
+  // });
 });
