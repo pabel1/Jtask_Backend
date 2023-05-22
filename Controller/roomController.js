@@ -8,9 +8,9 @@ const Errorhandeler = require("../Utility/ErrorHandler");
 
 // create devices
 exports.createRoom = catchAsyncError(async (req, res, next) => {
-  const { roomNumber, devices, renter } = req.body;
+  const { roomNumber, devices, renterEmail } = req.body;
 
-  if (!roomNumber || !devices || !renter) {
+  if (!roomNumber) {
     return next(new Errorhandeler("Please fill the value properly", 400));
   }
 
@@ -22,7 +22,7 @@ exports.createRoom = catchAsyncError(async (req, res, next) => {
   let newRoom = await RoomModel.create({
     roomNumber,
     devices,
-    renter,
+    renterEmail,
   });
 
   res.status(201).json({
@@ -72,5 +72,15 @@ exports.deleteRoom = catchAsyncError(async (req, res, next) => {
     success: true,
 
     message: "Room deleted Successfully!!",
+  });
+});
+
+// get all room
+
+exports.getAllRoom = catchAsyncError(async (req, res, next) => {
+  const room = await RoomModel.aggregate([{ $sort: { createdAt: -1 } }]);
+  res.status(200).json({
+    success: true,
+    room,
   });
 });

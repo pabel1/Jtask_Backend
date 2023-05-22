@@ -4,6 +4,7 @@ const {
   createDevices,
   updateDevices,
   deleteDevices,
+  getAllDevices,
 } = require("../Controller/devicesController");
 const authVerification = require("../Middleware/authVarification");
 const { authorizeRoles } = require("../Middleware/roleMiddleware");
@@ -22,5 +23,7 @@ router
 router
   .route("/update-device/:id")
   .delete(authVerification, authorizeRoles("Admin"), deleteDevices);
+
+router.route("/get-all-device").get(getAllDevices);
 
 module.exports = router;

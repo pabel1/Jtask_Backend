@@ -32,27 +32,10 @@ exports.createDevices = catchAsyncError(async (req, res, next) => {
 });
 // get all  devices
 exports.getAllDevices = catchAsyncError(async (req, res, next) => {
-  const { name, type } = req.body;
-
-  if (!name || !type) {
-    return next(new Errorhandeler("Please fill the value properly", 400));
-  }
-
-  const device = await DeviceModel.findOne({ name: name });
-  if (device) {
-    return next(new ErrorHandler("this device already axist!", 404));
-  }
-
-  const newDevice = new DeviceModel({
-    name,
-    type,
-  });
-  let deviceData = await newDevice.save();
-
-  res.status(201).json({
+  const device = await DeviceModel.aggregate([{ $sort: { createdAt: -1 } }]);
+  res.status(200).json({
     success: true,
-    deviceData,
-    message: "Device Create Successfully!!",
+    device,
   });
 });
 // update   devices

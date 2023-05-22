@@ -11,7 +11,9 @@ const roomSchema = new mongoose.Schema(
       {
         diviceName: {
           type: String,
-          require: true,
+        },
+        diviceId: {
+          type: mongoose.Schema.Types.ObjectId,
         },
       },
     ],
@@ -20,12 +22,16 @@ const roomSchema = new mongoose.Schema(
 
     //   default: null,
     // },
-    renter: {
+    renterEmail: {
       type: String,
       require: true,
       default: null,
     },
     isLocked: {
+      type: Boolean,
+      default: true,
+    },
+    booked: {
       type: Boolean,
       default: false,
     },
