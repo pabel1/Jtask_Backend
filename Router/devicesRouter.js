@@ -6,6 +6,7 @@ const {
   deleteDevices,
 } = require("../Controller/devicesController");
 const authVerification = require("../Middleware/authVarification");
+const { authorizeRoles } = require("../Middleware/roleMiddleware");
 
 // internal import
 

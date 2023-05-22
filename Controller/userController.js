@@ -57,7 +57,7 @@ exports.createUser = catchAsyncError(async (req, res, next) => {
   const newUser = new UserModel({
     name,
     email,
-    phone,
+
     password,
   });
   let userData = await newUser.save();

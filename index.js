@@ -8,6 +8,9 @@ const mongoose = require("mongoose");
 const socket = require("socket.io");
 const http = require("http");
 // internal import
+const userRoute = require("./Router/userRouter");
+const deviceRouter = require("./Router/devicesRouter");
+const roomRouter = require("./Router/roomRouter");
 
 const errorMiddleware = require("./Middleware/errorMiddleware");
 
@@ -63,6 +66,10 @@ process.on("uncaughtException", (err) => {
 });
 
 // route setup
+app.use("/api/v1", userRoute);
+app.use("/api/v1", deviceRouter);
+app.use("/api/v1", roomRouter);
+// app.use("/api/v1", renterRouter);
 
 // error middleware
 app.use(errorMiddleware);
