@@ -62,9 +62,14 @@ exports.createUser = catchAsyncError(async (req, res, next) => {
   });
   let userData = await newUser.save();
 
+  let token;
+  if (userData) {
+    token = await jwtHandle(userData?.email, userData?._id);
+  }
   res.status(201).json({
     success: true,
     userData,
+    access_token: token,
     message: "User Create Successfully!!",
   });
 });
