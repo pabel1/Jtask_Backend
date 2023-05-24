@@ -68,3 +68,16 @@ exports.createUser = catchAsyncError(async (req, res, next) => {
     message: "User Create Successfully!!",
   });
 });
+// create user
+exports.getAllUser = catchAsyncError(async (req, res, next) => {
+  const user = await UserModel.find({ role: "renter" });
+  if (user.length === 0) {
+    return next(new ErrorHandler("User already axist!", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+    message: "User Get Successfully!!",
+  });
+});

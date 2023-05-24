@@ -76,7 +76,6 @@ exports.deleteRoom = catchAsyncError(async (req, res, next) => {
 });
 
 // get all room
-
 exports.getAllRoom = catchAsyncError(async (req, res, next) => {
   const room = await RoomModel.aggregate([{ $sort: { createdAt: -1 } }]);
   res.status(200).json({
