@@ -86,3 +86,15 @@ exports.getAllUser = catchAsyncError(async (req, res, next) => {
     message: "User Get Successfully!!",
   });
 });
+// get login user details
+exports.myDetails = catchAsyncError(async (req, res, next) => {
+  const id = req.userId;
+  const user = await UserModel.findById(id);
+  if (!user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
